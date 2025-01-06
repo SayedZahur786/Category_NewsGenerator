@@ -1,0 +1,147 @@
+/* General Body Styling */
+body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Welcome Page Styling */
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    text-align: center;
+    background: linear-gradient(120deg, #ff7eb3, #ff758c, #ff92f8, #acc5df);
+    color: white;
+}
+
+.welcome-content h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5em;
+}
+
+.welcome-content p {
+    font-size: 1.2rem;
+    margin: 0.5em 0;
+}
+
+.welcome-content h2 {
+    font-size: 2rem;
+    margin: 1em 0;
+}
+
+.welcome-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5em;
+}
+
+.category-select {
+    margin-bottom: 1.5em;
+}
+
+.category-select label {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.category-select select {
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-select select:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#dive-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+
+#dive-btn:hover {
+    background: #218838;
+}
+
+/* News Page Styling */
+.news-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.news-container h1 {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.news-articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.news-article {
+    width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.news-article:hover {
+    transform: scale(1.05);
+}
+
+.news-article img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.news-article h2 {
+    font-size: 1.2rem;
+    margin: 10px;
+}
+
+.news-article p {
+    font-size: 0.9rem;
+    margin: 10px;
+    color: #555;
+}
+
+.news-article a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.news-article a:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
