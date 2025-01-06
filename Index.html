@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link rel="stylesheet" href="styling.css">
+</head>
+<body>
+    <!-- Welcome Page -->
+    <div id="welcome-page" class="welcome-container">
+        <div class="welcome-content">
+            <h1>Welcome!</h1>
+            <p>This project was made by <strong>Mohd Zahur</strong></p>
+            <p>Roll No: <strong>10319</strong></p>
+            <h2>Wondering what's happening in the world?</h2>
+            <h3>Choose your favorite genre</h3>
+            <div class="category-select">
+                <label for="category">Select Category:</label>
+                <select id="category" name="category">
+                    <option value="general">General</option>
+                    <option value="technology">Technology</option>
+                    <option value="sports">Sports</option>
+                    <option value="health">Health</option>
+                    <option value="entertainment">Entertainment</option>
+                </select>
+            </div>
+            <button id="dive-btn" onclick="startApp()">Let’s Dive In</button>
+        </div>
+    </div>
+
+    <!-- News Page -->
+    <div id="news-page" class="news-container hidden">
+        <h1>Latest News</h1>
+        <div id="news-articles" class="news-articles"></div>
+        <p id="error-message" class="error-message hidden">No articles found. Please try a different category.</p>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+</html>
