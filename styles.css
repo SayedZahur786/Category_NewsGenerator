@@ -1,11 +1,9 @@
-/* General Body Styling */
 body {
     margin: 0;
     font-family: 'Poppins', Arial, sans-serif;
     background-color: #f8f9fa;
 }
 
-/* Welcome Page Styling */
 .welcome-container {
     display: flex;
     justify-content: center;
@@ -75,7 +73,6 @@ body {
     background: #218838;
 }
 
-/* News Page Styling */
 .news-container {
     padding: 20px;
     text-align: center;
