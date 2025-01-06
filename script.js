@@ -1,16 +1,16 @@
-const API_KEY = "153cf6e051db4ad592408e3411e561d0"; // Replace with your API key
+const API_KEY = "153cf6e051db4ad592408e3411e561d0";
 
-const startApp = () => {
-    const selectedCategory = document.getElementById("category").value;
+const start = () => {
+    const category = document.getElementById("category").value;
     document.getElementById("welcome-page").classList.add("hidden");
     document.getElementById("news-page").classList.remove("hidden");
-    loadNews(selectedCategory);
+    fetchNews(category);
 };
 
-const loadNews = async (category) => {
+const fetchNews = async (category) => {
     const newsContainer = document.getElementById("news-articles");
     const errorMessage = document.getElementById("error-message");
-    newsContainer.innerHTML = ""; // Clear previous content
+    newsContainer.innerHTML = "";
     errorMessage.classList.add("hidden");
 
     try {
