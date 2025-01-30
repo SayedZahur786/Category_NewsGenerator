@@ -41,7 +41,7 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
     loadMoreButton.classList.add("hidden");
 
     try {
-        let apiUrl = `https://newsapi.org/v2/top-headlines?country=us&page=${page}`;
+        let apiUrl = `https://cors-anywhere.herokuapp.com/newsapi.org/v2/top-headlines?country=us&page=${page}`;
         if (category) {
             apiUrl += `&category=${category}`;
         }
@@ -52,6 +52,7 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
         const response = await fetch(apiUrl, {
             headers: {
                 "X-Api-Key": API_KEY,
+                // "mode": "no-cors"
             },
         });
 
