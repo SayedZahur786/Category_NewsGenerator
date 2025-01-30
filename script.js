@@ -1,30 +1,59 @@
-const API_KEY = "153cf6e051db4ad592408e3411e561d0";
+const API_KEY = "153cf6e051db4ad592408e3411e561d0"; 
+let currentPage = 1;
 
-const start = () => {
+document.addEventListener("DOMContentLoaded", () => {
     const category = document.getElementById("category").value;
-    document.getElementById("welcome-page").classList.add("hidden");
-    document.getElementById("news-page").classList.remove("hidden");
     fetchNews(category);
-};
+});
 
-const fetchNews = async (category) => {
+
+document.getElementById("category").addEventListener("change", (event) => {
+    currentPage = 1;
+    const category = event.target.value;
+    fetchNews(category);
+});
+
+document.getElementById("search-button").addEventListener("click", () => {
+    currentPage = 1;
+    const searchQuery = document.getElementById("search-input").value;
+    if (searchQuery) {
+        fetchNews(null, searchQuery);
+    }
+});
+
+document.getElementById("load-more").addEventListener("click", () => {
+    const category = document.getElementById("category").value;
+    const searchQuery = document.getElementById("search-input").value;
+    currentPage++;
+    fetchNews(category, searchQuery, currentPage);
+});
+
+const fetchNews = async (category, searchQuery = "", page = 1) => {
     const newsContainer = document.getElementById("news-articles");
     const errorMessage = document.getElementById("error-message");
-    newsContainer.innerHTML = ""; // Clear previous articles
-    errorMessage.classList.add("hidden"); // Hide error message
+    const loadMoreButton = document.getElementById("load-more");
+
+    if (page === 1) {
+        newsContainer.innerHTML = "";
+    }
+
+    errorMessage.classList.add("hidden"); 
+    loadMoreButton.classList.add("hidden");
 
     try {
-        // Direct API call (no proxy)
-        const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${category}`;
-        console.log("Fetching news from:", apiUrl);
+        let apiUrl = `https://newsapi.org/v2/top-headlines?country=us&page=${page}`;
+        if (category) {
+            apiUrl += `&category=${category}`;
+        }
+        if (searchQuery) {
+            apiUrl += `&q=${encodeURIComponent(searchQuery)}`;
+        }
 
         const response = await fetch(apiUrl, {
             headers: {
-                // NewsAPI requires the API key in the header for browser-based requests
                 "X-Api-Key": API_KEY,
             },
         });
-        console.log("Response status:", response.status);
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -34,11 +63,12 @@ const fetchNews = async (category) => {
         console.log("Data received:", data);
 
         if (!data.articles || data.articles.length === 0) {
-            errorMessage.classList.remove("hidden");
+            if (page === 1) {
+                errorMessage.classList.remove("hidden");
+            }
             return;
         }
 
-        // Display the articles
         data.articles.forEach((article) => {
             const articleDiv = document.createElement("div");
             articleDiv.className = "news-article";
@@ -50,6 +80,10 @@ const fetchNews = async (category) => {
             `;
             newsContainer.appendChild(articleDiv);
         });
+
+        if (data.totalResults > newsContainer.children.length) {
+            loadMoreButton.classList.remove("hidden");
+        }
     } catch (error) {
         console.error("Error fetching news:", error);
         errorMessage.innerText = "Error fetching news. Please try again later.";
