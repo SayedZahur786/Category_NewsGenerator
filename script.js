@@ -14,10 +14,19 @@ const fetchNews = async (category) => {
     errorMessage.classList.add("hidden");
 
     try {
-        const response = await fetch(
-            `https://newsapi.org/v2/top-headlines?apiKey=${API_KEY}&country=us&category=${category}`
-        );
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${API_KEY}&country=us&category=${category}`;
+        console.log("Fetching news from:", proxyUrl + apiUrl);
+
+        const response = await fetch(proxyUrl + apiUrl);
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log("Data received:", data);
 
         if (!data.articles || data.articles.length === 0) {
             errorMessage.classList.remove("hidden");
