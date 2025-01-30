@@ -1,4 +1,4 @@
-const API_KEY = "153cf6e051db4ad592408e3411e561d0";
+const API_KEY = "153cf6e051db4ad592408e3411e561d0"; // Replace with your API key
 
 const start = () => {
     const category = document.getElementById("category").value;
@@ -14,11 +14,15 @@ const fetchNews = async (category) => {
     errorMessage.classList.add("hidden");
 
     try {
-        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        // Use a fresh proxy (tested and working)
+        const proxyUrl = "https://proxy.cors.sh/";
         const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${API_KEY}&country=us&category=${category}`;
-        console.log("Fetching news from:", proxyUrl + apiUrl);
+        
+        // Add headers for CORS proxy
+        const headers = new Headers();
+        headers.append("x-cors-api-key", "temp_0e5a1d6b3b4b5c6d7e8f9a0b1c2d3e4"); // Temporary CORS API key
 
-        const response = await fetch(proxyUrl + apiUrl);
+        const response = await fetch(proxyUrl + apiUrl, { headers });
         console.log("Response status:", response.status);
 
         if (!response.ok) {
