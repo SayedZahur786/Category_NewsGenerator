@@ -1,4 +1,4 @@
-const API_KEY = "153cf6e051db4ad592408e3411e561d0"; // Replace with your API key
+const API_KEY = "153cf6e051db4ad592408e3411e561d0";
 
 const start = () => {
     const category = document.getElementById("category").value;
@@ -10,19 +10,20 @@ const start = () => {
 const fetchNews = async (category) => {
     const newsContainer = document.getElementById("news-articles");
     const errorMessage = document.getElementById("error-message");
-    newsContainer.innerHTML = "";
-    errorMessage.classList.add("hidden");
+    newsContainer.innerHTML = ""; // Clear previous articles
+    errorMessage.classList.add("hidden"); // Hide error message
 
     try {
-        // Use a fresh proxy (tested and working)
-        const proxyUrl = "https://proxy.cors.sh/";
-        const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${API_KEY}&country=us&category=${category}`;
-        
-        // Add headers for CORS proxy
-        const headers = new Headers();
-        headers.append("x-cors-api-key", "temp_0e5a1d6b3b4b5c6d7e8f9a0b1c2d3e4"); // Temporary CORS API key
+        // Direct API call (no proxy)
+        const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${category}`;
+        console.log("Fetching news from:", apiUrl);
 
-        const response = await fetch(proxyUrl + apiUrl, { headers });
+        const response = await fetch(apiUrl, {
+            headers: {
+                // NewsAPI requires the API key in the header for browser-based requests
+                "X-Api-Key": API_KEY,
+            },
+        });
         console.log("Response status:", response.status);
 
         if (!response.ok) {
@@ -37,6 +38,7 @@ const fetchNews = async (category) => {
             return;
         }
 
+        // Display the articles
         data.articles.forEach((article) => {
             const articleDiv = document.createElement("div");
             articleDiv.className = "news-article";
