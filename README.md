@@ -4,7 +4,7 @@ A sleek and modern single-page news aggregator that fetches real-time articles f
 
 **[Live Demo](https://sayedzahur786.github.io/Category_NewsGenerator/)** 🔗
 
-![Screenshot of the Website](/News Aggregator - Screenshot)
+![Screenshot of the Website](news-aggregator-screenshot.png)
 
 ---
 
