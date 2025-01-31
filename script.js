@@ -40,8 +40,7 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
     loadMoreButton.classList.add("hidden");
 
     try {
-        // Build the API URL
-        let apiUrl = `https://newsapi.org/v2/top-headlines?country=us&page=${page}`;
+        let apiUrl = `https://newsapi.org/v2/top-headlines?country=us&page=${page}&apiKey=${API_KEY}`;
         if (category) {
             apiUrl += `&category=${category}`;
         }
@@ -49,22 +48,25 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
             apiUrl += `&q=${encodeURIComponent(searchQuery)}`;
         }
 
-        // Use an alternative proxy
         const proxyUrl = "https://api.allorigins.win/get?url=";
         const fullUrl = proxyUrl + encodeURIComponent(apiUrl);
 
-        // Fetch news data
         const response = await fetch(fullUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        // Parse the JSON data
         const data = await response.json();
-        const articles = JSON.parse(data.contents).articles; // Parse the response from the proxy
-        console.log("Articles received:", articles);
+        console.log("Proxy response:", data);
 
-        // Check if articles are available
+        if (!data.contents) {
+            throw new Error("No contents found in the proxy response.");
+        }
+
+        const parsedContents = JSON.parse(data.contents);
+        console.log("Parsed contents:", parsedContents);
+
+        const articles = parsedContents.articles;
         if (!articles || articles.length === 0) {
             if (page === 1) {
                 errorMessage.classList.remove("hidden");
@@ -72,7 +74,6 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
             return;
         }
 
-        // Display the articles
         articles.forEach((article) => {
             const articleDiv = document.createElement("div");
             articleDiv.className = "news-article";
@@ -85,8 +86,7 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
             newsContainer.appendChild(articleDiv);
         });
 
-        // Show "Load More" button if there are more articles
-        if (data.contents && JSON.parse(data.contents).totalResults > newsContainer.children.length) {
+        if (parsedContents.totalResults > newsContainer.children.length) {
             loadMoreButton.classList.remove("hidden");
         }
     } catch (error) {
