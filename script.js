@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = "153cf6e051db4ad592408e3411e561d0";
 let currentPage = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
