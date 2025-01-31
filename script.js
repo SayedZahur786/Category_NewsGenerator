@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchNews(category);
 });
 
-
 document.getElementById("category").addEventListener("change", (event) => {
     currentPage = 1;
     const category = event.target.value;
@@ -41,7 +40,8 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
     loadMoreButton.classList.add("hidden");
 
     try {
-        let apiUrl = `https://cors-anywhere.herokuapp.com/newsapi.org/v2/top-headlines?country=us&page=${page}`;
+        // Build the API URL
+        let apiUrl = `https://newsapi.org/v2/top-headlines?country=us&page=${page}`;
         if (category) {
             apiUrl += `&category=${category}`;
         }
@@ -49,28 +49,31 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
             apiUrl += `&q=${encodeURIComponent(searchQuery)}`;
         }
 
-        const response = await fetch(apiUrl, {
-            headers: {
-                "X-Api-Key": API_KEY,
-                // "mode": "no-cors"
-            },
-        });
+        // Use an alternative proxy
+        const proxyUrl = "https://api.allorigins.win/get?url=";
+        const fullUrl = proxyUrl + encodeURIComponent(apiUrl);
 
+        // Fetch news data
+        const response = await fetch(fullUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+        // Parse the JSON data
         const data = await response.json();
-        console.log("Data received:", data);
+        const articles = JSON.parse(data.contents).articles; // Parse the response from the proxy
+        console.log("Articles received:", articles);
 
-        if (!data.articles || data.articles.length === 0) {
+        // Check if articles are available
+        if (!articles || articles.length === 0) {
             if (page === 1) {
                 errorMessage.classList.remove("hidden");
             }
             return;
         }
 
-        data.articles.forEach((article) => {
+        // Display the articles
+        articles.forEach((article) => {
             const articleDiv = document.createElement("div");
             articleDiv.className = "news-article";
             articleDiv.innerHTML = `
@@ -82,7 +85,8 @@ const fetchNews = async (category, searchQuery = "", page = 1) => {
             newsContainer.appendChild(articleDiv);
         });
 
-        if (data.totalResults > newsContainer.children.length) {
+        // Show "Load More" button if there are more articles
+        if (data.contents && JSON.parse(data.contents).totalResults > newsContainer.children.length) {
             loadMoreButton.classList.remove("hidden");
         }
     } catch (error) {
